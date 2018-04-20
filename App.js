@@ -6,7 +6,7 @@ import SplashScreen from './src/screens/SplashScreen';
 import WaitForDeviceScreen from './src/screens/WaitForDeviceScreen';
 import ScanForWifiScreen from './src/screens/ScanForWifiScreen';
 
-
+// Create navigator for three steps
 const RootStack = createStackNavigator({
   Splash: {
     screen: SplashScreen,
@@ -21,7 +21,6 @@ const RootStack = createStackNavigator({
 
 export default class App extends React.Component {
   render() {
-
     return (
       <PaperProvider>
         <RootStack />

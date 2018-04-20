@@ -10,6 +10,7 @@
     "lodash": "^4.17.5",
     "node-libs-react-native": "^1.0.2",
     "node-rsa": "^0.4.2",
+    "prop-types": "^15.6.1",
     "react": "16.3.1",
     "react-native": "0.55.3",
     "react-native-modal-selector": "^0.0.27",

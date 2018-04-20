@@ -16,6 +16,7 @@ export default class WaitForDeviceScreen extends Component {
     this.state = {};
   }
 
+  // Poll, try and find a device on the wifi.
   async pollForDevice() {
     console.log('[WaitForDeviceScreen] pollForDevice');
     let deviceId;
@@ -35,6 +36,7 @@ export default class WaitForDeviceScreen extends Component {
     this.props.navigation.navigate('ScanForWifi');
   }
 
+  // When this screen appears, start polling in a moment.
   componentDidMount() {
     this.poll = setTimeout(this.pollForDevice.bind(this), 3000);
   }

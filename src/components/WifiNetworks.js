@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { ListItem, Paper } from 'react-native-paper';
 
+// Internal: A representation of a Wifi network.
+//
+// TODO: Should probably show signal strength
 const Network = ({ssid, onPress}) => {
   return (
     <ListItem
@@ -12,6 +15,11 @@ const Network = ({ssid, onPress}) => {
   );
 }
 
+// Internal: List of wifi networks.
+//
+// networks: Array of networks from Softap.scan
+// loaded: Has the scan finished?
+// failed: Did the scan request fail?
 export default class WifiNetworks extends Component {
 
   render() {

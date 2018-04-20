@@ -1,3 +1,4 @@
+// Thanks Brewskey.
 export const fetchJSON = async (...fetchArgs: Array<any>): Promise<any> => {
   const response = await fetch(...fetchArgs);
 

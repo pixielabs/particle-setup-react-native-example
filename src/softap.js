@@ -6,15 +6,6 @@ const AP_URL = 'http://192.168.0.1:80';
 // How long to wait when testing if we're connected to a SoftAP, in ms.
 const PING_TIMEOUT = 500;
 
-export const OPEN = 0;
-export const WEP_PSK = 1;
-export const WEP_SHARED = 32769;
-export const WPA_AES_PSK = 2097156;
-export const WPA_TKIP_PSK = 2097154;
-export const WPA2_AES_PSK = 4194308;
-export const WPA2_MIXED_PSK = 4194310;
-export const WPA2_TKIP_PSK = 419430;
-
 export default class Softap {
   static OPEN = 0
   static WEP_PSK = 1
@@ -51,20 +42,28 @@ export default class Softap {
     });
   }
 
+  // Public: Scan for wifi networks.
   static scan = async () => {
     const { scans } = await fetchJSON(`${AP_URL}/scan-ap`);
 
     return scans;
   }
 
+  // Public: Configure a wifi network and connect to it (e.g. reboot the
+  // Particle device).
   static configure = async ({ssid, security, password}) => {
+    // Get public key from button so we can encrypt the wifi password
     const publicKey = await Softap.getPublicKey();
+    // Encrypt the wifi password.
     const encryptedPassword = password ? publicKey.encrypt(password, 'hex') : '';
 
-    // This endpoint returns no content
+    // This endpoint returns no content, so don't worry about the response.
     await fetchJSON({
       body: {
+        // Lazy; who cares what the channel is?!
         ch: 3,
+        // Lazy; who cares what config we overwrite?! You can't get them
+        // out of the device anyway, fail.
         idx: 0,
         pwd: encryptedPassword,
         sec: security,
@@ -87,6 +86,9 @@ export default class Softap {
 
   }
 
+  // Internal: Get the device's public key. This is used to encrypt the
+  // Wifi password when configuring a network, because the HTTP request goes
+  // over an open network in the clear!
   static getPublicKey = async () => {
     const { b: rawDerPublicKey, r: responseCode } = await fetchJSON(
       `${AP_URL}/public-key`,

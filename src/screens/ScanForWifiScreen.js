@@ -10,6 +10,7 @@ import { find, isNumber } from 'lodash';
 import Softap from '../softap';
 import WifiNetworks from '../components/WifiNetworks';
 
+// Options for security selection modal.
 const securityOptions = [
   {key: 'label1', section: true, label: 'Common types'},
   {key: Softap.WPA2_AES_PSK, label: 'WPA2 AES (most common)'},
@@ -37,6 +38,7 @@ export default class ScanForWifiScreen extends Component {
     }
   }
 
+  // When the screen loads, scan for Wifi networks.
   async componentDidMount() {
     let networks = [];
     try {
@@ -49,6 +51,8 @@ export default class ScanForWifiScreen extends Component {
     this.setState({networks: networks, loaded: true, failed: false});
   }
 
+  // When the user has entered some network settings, configure and connect
+  // to it.
   async connect() {
     try {
       await Softap.configure({
@@ -61,10 +65,14 @@ export default class ScanForWifiScreen extends Component {
       return
     }
 
+    // TODO: Check device boots, claim it, etc.
     alert('Done!');
     this.props.navigation.popToTop();
   }
 
+  // Tapping on a network in the scan list pre-fills in some of the form.
+  // TODO: The label for the 'Network name' text input bugs out when you
+  // do this. Bug in react-native-paper?
   handleNetworkPress(network) {
     this.setState({
       ssid: network.ssid,
